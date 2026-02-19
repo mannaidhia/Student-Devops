@@ -1,33 +1,25 @@
 pipeline {
 
- agent any
+    agent any
 
- tools {jdk 'JAVA_HOME’, maven 'MAVEN_HOME'}
+    tools {
+        jdk 'JAVA_HOME'
+        maven 'MAVEN_HOME'
+    }
 
- stages {
+    stages {
 
- stage('GIT') {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/mannaidhia/Student-Devops.git'
+            }
+        }
 
-           steps {
-
-               git branch: 'master',
-
-               url: ' https://github.com/mannaidhia/Student-Devops.git'
-
-          }
-
-     }
-
- stage ('Compile Stage') {
-
- steps {
-
- sh 'mvn clean compile'
-
- }
-
- }
-
- }
-
+        stage('Build') {
+            steps {
+                bat 'mvn clean package'
+            }
+        }
+    }
 }
